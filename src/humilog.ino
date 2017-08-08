@@ -12,7 +12,7 @@
 #define DHTPIN D1     // what pin we're connected to
 #define DHTTYPE DHT11   // DHT 11
 
-DHT dht(DHTPIN, DHTTYPE, 30);
+DHT dht;
 
 ESP8266WebServer server = ESP8266WebServer(80);       // create a web server on port 80
 
@@ -41,7 +41,7 @@ void setup() {
   delay(10);
   Serial.println("\r\n");
 
-  dht.begin();
+  dht.setup(D1);
 
   // if (tempSensors.getDeviceCount() == 0) {
   //   Serial.printf("No DS18x20 temperature sensor found on pin %d. Rebooting.\r\n", TEMP_SENSOR_PIN);
@@ -114,8 +114,8 @@ void loop() {
       // The actual time is the last NTP time plus the time that has elapsed since the last NTP response
       tmpRequested = false;
       // float temp = dht.getTempCByIndex(0); // Get the temperature from the sensor
-      float temp = dht.readHumidity();
-      temp = round(temp); // round temperature to 2 digits
+      float temp = dht.getHumidity();
+      temp = round(temp);
 
       Serial.printf("Appending temperature to file: %lu,", actualTime);
       Serial.println(temp);

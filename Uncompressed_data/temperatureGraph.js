@@ -13,7 +13,7 @@ function drawChart() {
 
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'UNIX');
-    data.addColumn('number', 'Temperature');
+    data.addColumn('number', 'Humidity');
 
     data.addRows(dataArray);
 
@@ -44,7 +44,7 @@ function drawChart() {
             }
         },
         vAxis: {
-            title: "Temperature (Celsius)"
+            title: "Relative humidity (%)"
         }
     };
 
