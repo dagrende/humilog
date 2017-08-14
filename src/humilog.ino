@@ -113,17 +113,17 @@ void loop() {
       uint32_t actualTime = timeUNIX + (currentMillis - lastNTPResponse) / 1000;
       // The actual time is the last NTP time plus the time that has elapsed since the last NTP response
       tmpRequested = false;
-      // float temp = dht.getTempCByIndex(0); // Get the temperature from the sensor
-      float temp = dht.getHumidity();
-      temp = round(temp);
 
-      Serial.printf("Appending temperature to file: %lu,", actualTime);
-      Serial.println(temp);
-      File tempLog = SPIFFS.open("/temp.csv", "a"); // Write the time and the temperature to the csv file
-      tempLog.print(actualTime);
-      tempLog.print(',');
-      tempLog.println(temp);
-      tempLog.close();
+      float humidity = round(dht.getHumidity());
+      if (0 <= humidity && humidity <= 100) {
+        Serial.printf("Appending temperature to file: %lu,", actualTime);
+        Serial.println(humidity);
+        File tempLog = SPIFFS.open("/temp.csv", "a"); // Write the time and the temperature to the csv file
+        tempLog.print(actualTime);
+        tempLog.print(',');
+        tempLog.println(humidity);
+        tempLog.close();
+      }
     }
   } else {                                    // If we didn't receive an NTP response yet, send another request
     sendNTPpacket(timeServerIP);
