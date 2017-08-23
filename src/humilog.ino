@@ -1,4 +1,4 @@
-#include "DHT.h"
+#include "SHT21.h"
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <WiFiUdp.h>
@@ -12,7 +12,7 @@
 #define DHTPIN D1     // what pin we're connected to
 #define DHTTYPE DHT11   // DHT 11
 
-DHT dht;
+SHT21 sht21;
 
 ESP8266WebServer server = ESP8266WebServer(80);       // create a web server on port 80
 
@@ -40,8 +40,6 @@ void setup() {
   Serial.begin(115200);        // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println("\r\n");
-
-  dht.setup(D1);
 
   // if (tempSensors.getDeviceCount() == 0) {
   //   Serial.printf("No DS18x20 temperature sensor found on pin %d. Rebooting.\r\n", TEMP_SENSOR_PIN);
@@ -114,10 +112,9 @@ void loop() {
       // The actual time is the last NTP time plus the time that has elapsed since the last NTP response
       tmpRequested = false;
 
-      float humidity = round(dht.getHumidity());
+      float humidity = round(sht21.getHumidity() * 100.0) / 100.0;
       if (0 <= humidity && humidity <= 100) {
         Serial.printf("Appending temperature to file: %lu,", actualTime);
-        Serial.println(humidity);
         File tempLog = SPIFFS.open("/temp.csv", "a"); // Write the time and the temperature to the csv file
         tempLog.print(actualTime);
         tempLog.print(',');
