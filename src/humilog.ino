@@ -134,7 +134,7 @@ void loop() {
 /*__________________________________________________________SETUP_FUNCTIONS__________________________________________________________*/
 
 void startWiFi() { // Try to connect to some given access points. Then wait for a connection
-  wifiMulti.addAP("gnejs", "badborste");   // add Wi-Fi networks you want to connect to
+  wifiMulti.addAP("myssid", "123456");   // add Wi-Fi networks you want to connect to
   wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
